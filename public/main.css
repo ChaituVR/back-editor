@@ -1,0 +1,11 @@
+#myTextArea{
+
+}
+.CodeMirror{
+  right:0px !important;
+  width:90% !important;
+  font-family: monospace;
+  border:1px solid !important;
+  height:98% !important;
+  font-size:1.3em;
+}
