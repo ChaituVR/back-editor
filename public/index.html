@@ -8,6 +8,7 @@
         <script src="codemirror/lib/codemirror.js"></script>
         <link rel="stylesheet" href="codemirror/lib/codemirror.css">
         <script src="codemirror/mode/javascript/javascript.js"></script>
+        <div id="project-files"></div>
         <textarea aria-label="js" spellcheck="false" autocapitalize="none" autocorrect="off" id="myTextArea"></textarea>
     </body>
 
@@ -45,6 +46,31 @@
 
 
         var socket = io();
+        getFileNames();
+        socket.on("setFileNames",function(files){
+          setFileNames(files);
+        });
+        function getFileNames(){
+          socket.emit('getFileNames');
+        }
+        function setFileNames(files){
+          for(var file of files){
+            $("#project-files").append("<button>"+file+"</button><br>");
+
+          }
+        }
+
+
+
+        myCodeMirror.doc.setValue(`var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("myTextArea"), {
+            mode: 'javascript',
+            lineWrapping: true,
+            extraKeys: {
+                'Ctrl-Space': 'autocomplete'
+            },
+            lineNumbers: true,
+            autofocus: true
+        });`);
     </script>
 
 </html>
