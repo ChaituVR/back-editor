@@ -15,8 +15,17 @@ app.get('/', function(req, res){
 io.on('connection', function(socket){
   console.log('a user connected');
   socket.on('getFileNames', function(){
-    var files = fs.readdirSync('UserBin');
-    io.emit('setFileNames', files);
+    fs.readdir('UserBin', function(err, list) {
+   if (err) { return done(err); }
+    io.emit('setFileNames', list);
+  });
+  //  var files = fs.readdirSync('UserBin');
+
+  });
+  socket.on('getTheContentFromFile',function(fileName){
+    fs.readFile('UserBin/'+fileName, function(err, contents) {
+    io.emit('setTheContentFromFile', contents.toString());
+});
   });
   socket.on('disconnect',function(){
     console.log("disconnect");

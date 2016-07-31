@@ -47,18 +47,35 @@
 
         var socket = io();
         getFileNames();
+        getTheContentFromFile("index.html");
+
         socket.on("setFileNames",function(files){
           setFileNames(files);
         });
+        socket.on("setTheContentFromFile",function(fileContent){
+          setTheContentFromFile(fileContent);
+        });
+
         function getFileNames(){
           socket.emit('getFileNames');
         }
         function setFileNames(files){
           for(var file of files){
-            $("#project-files").append("<button>"+file+"</button><br>");
-
+            $("#project-files").append("<button class='fileName-btn' value='"+file+"'>"+file+"</button><br>");
           }
+          $(".fileName-btn").on('click',function(){
+           getTheContentFromFile(this.value);
+          });
         }
+        function getTheContentFromFile(fileName){
+          socket.emit('getTheContentFromFile',fileName);
+        }
+        function setTheContentFromFile(fileContent){
+          myCodeMirror.doc.setValue(fileContent);
+        }
+
+
+
 
 
 
