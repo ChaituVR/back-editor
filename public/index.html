@@ -1,93 +1,39 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="main.css" </head>
+    <link rel="stylesheet" href="main.css">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+  </head>
 
     <body>
         <meta charset="utf-8" />
-        <script src="codemirror/lib/codemirror.js"></script>
         <link rel="stylesheet" href="codemirror/lib/codemirror.css">
+        <link rel="stylesheet" href="codemirror/theme/monokai.css">
+
+        <script src="codemirror/lib/codemirror.js"></script>
+        <script src="codemirror/addon/search/searchcursor.js"></script>
+        <script src="codemirror/addon/edit/matchbrackets.js"></script>
+        <script src="codemirror/addon/edit/closebrackets.js"></script>
+        <script src="codemirror/addon/comment/comment.js"></script>
+        <script src="codemirror/keymap/sublime.js"></script>
+        <script src="codemirror/mode/xml/xml.js"></script>
         <script src="codemirror/mode/javascript/javascript.js"></script>
+        <script src="codemirror/mode/css/css.js"></script>
+        <script src="codemirror/mode/htmlmixed/htmlmixed.js"></script>
+
+
+        <!-- <script src="codemirror/lib/codemirror.js"></script>
+        <link rel="stylesheet" href="codemirror/lib/codemirror.css">
+         <script src="codemirror/mode/xml/xml.js"></script>
+        <script src="codemirror/mode/javascript/javascript.js"></script>
+        <script src="codemirror/keymap/sublime.js"></script> -->
+
         <div id="project-files"></div>
         <textarea aria-label="js" spellcheck="false" autocapitalize="none" autocorrect="off" id="myTextArea"></textarea>
     </body>
 
     <script src="js/jquery-3.1.0.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script>
-        var ctrl_down = false;
-        var ctrl_key = 17;
-        var s_key = 83;
-
-        // $(document).keydown(function(e) {
-        //     if (e.keyCode == ctrl_key) ctrl_down = true;
-        // }).keyup(function(e) {
-        //     if (e.keyCode == ctrl_key) ctrl_down = false;
-        // });
-        //
-        // $(document).keydown(function(e) {
-        //     if (ctrl_down && (e.keyCode == s_key)) {
-        //         console.log("EFEWFEWFEF");
-        //         // Your code
-        //         return false;
-        //     }
-        // });
-
-
-        var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("myTextArea"), {
-            mode: 'javascript',
-            lineWrapping: true,
-            extraKeys: {
-                'Ctrl-Space': 'autocomplete'
-            },
-            lineNumbers: true,
-            autofocus: true
-        });
-
-
-        var socket = io();
-        getFileNames();
-        getTheContentFromFile("index.html");
-
-        socket.on("setFileNames",function(files){
-          setFileNames(files);
-        });
-        socket.on("setTheContentFromFile",function(fileContent){
-          setTheContentFromFile(fileContent);
-        });
-
-        function getFileNames(){
-          socket.emit('getFileNames');
-        }
-        function setFileNames(files){
-          for(var file of files){
-            $("#project-files").append("<button class='fileName-btn' value='"+file+"'>"+file+"</button><br>");
-          }
-          $(".fileName-btn").on('click',function(){
-           getTheContentFromFile(this.value);
-          });
-        }
-        function getTheContentFromFile(fileName){
-          socket.emit('getTheContentFromFile',fileName);
-        }
-        function setTheContentFromFile(fileContent){
-          myCodeMirror.doc.setValue(fileContent);
-        }
-
-
-
-
-
-
-        myCodeMirror.doc.setValue(`var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("myTextArea"), {
-            mode: 'javascript',
-            lineWrapping: true,
-            extraKeys: {
-                'Ctrl-Space': 'autocomplete'
-            },
-            lineNumbers: true,
-            autofocus: true
-        });`);
-    </script>
+    <script src="js/main.js"></script>
 
 </html>

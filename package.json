@@ -4,7 +4,8 @@
   "description": "Edit the Back end Files",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "author": "ChaituVR",
   "license": "ISC",
@@ -12,5 +13,14 @@
     "codemirror": "^5.17.0",
     "express": "^4.14.0",
     "socket.io": "^1.4.8"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/ChaituVR/back-editor.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ChaituVR/back-editor/issues"
+  },
+  "homepage": "https://github.com/ChaituVR/back-editor#readme"
 }
