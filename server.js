@@ -14,13 +14,80 @@ app.get('/', function(req, res){
 
 });
 
+function getFiles (dir, files_){
+    files_ = files_ || [];
+    var files = fs.readdirSync(dir);
+    if(files==0){
+      files_.push("Empty>"+dir);
+    }
+    else{
+      files_.push("Directory>"+dir);
+    }
+    for (var i in files){
+        var name = dir + '/' + files[i];
+        if (fs.statSync(name).isDirectory()){
+            getFiles(name, files_);
+
+        } else {
+            files_.push("file>"+name);
+        }
+    }
+    return files_;
+}
+function getFilesOrganised(files){
+  var organisedFiles=[];
+  var remainingFiles=[];
+  for (var i in files){
+  var checkDir = files[i].split(">");
+  if(checkDir.length==2){
+    var objA={};
+    if(checkDir[0]=='Empty'){
+      objA[checkDir[1]]=[];
+      organisedFiles.push(objA);
+    }
+    else if(checkDir[0]=='Directory'){
+      objA[checkDir[1]]=[];
+      organisedFiles.push(objA);
+
+    }
+    else if(checkDir[0]=='file'){
+      var fileSlipt=checkDir[1].split("/");
+      // objA[checkDir[1]]="File";
+      remainingFiles.push(checkDir[1]);
+    }
+
+  }
+
+  }
+
+  for (var i in remainingFiles){
+  var checkDirectory = remainingFiles[i].split("/");
+  var lastValue=checkDirectory.pop();
+  var currentDirectory=checkDirectory.join("/");
+
+  // for(var i = 0; i < organisedFiles.length; i++) {
+  //   if (organisedFiles[i][currentDirectory] == currentDirectory) {
+  //       console.log(currentDirectory)
+  //   }
+// }
+  }
+
+
+  return organisedFiles;
+}
+console.log(getFilesOrganised(getFiles('UserBin')))
+
+
+
 io.on('connection', function(socket){
   console.log('a user connected');
   socket.on('getFileNames', function(){
-    fs.readdir('UserBin', function(err, list) {
-   if (err) { return done(err); }
+    var list=getFiles('UserBin');
     io.emit('setFileNames', list);
-  });
+  //   fs.readdir('UserBin', function(err, list) {
+  //  if (err) { return done(err); }
+  //   io.emit('setFileNames', list);
+  // });
   //  var files = fs.readdirSync('UserBin');
 
   });
