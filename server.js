@@ -14,10 +14,17 @@ app.get('/', function(req, res) {
 
 });
 
-var getFiles=require('./getFiles')
+//var UserBin = require('./UserBin/server')
 
 
 
+
+//app.use('/UserBin', require('./UserBin/server').app);
+
+
+
+
+var getFiles = require('./getFiles')
 io.on('connection', function(socket) {
     console.log('a user connected');
     socket.on('getFileNames', function() {
@@ -33,7 +40,7 @@ io.on('connection', function(socket) {
     socket.on('getTheContentFromFile', function(fileName) {
         fs.readFile('UserBin/' + fileName, function(err, contents) {
             if (err) {
-                return done(err);
+             console.log(err);
             }
             io.emit('setTheContentFromFile', contents.toString(), path.extname(fileName));
         });
@@ -43,6 +50,6 @@ io.on('connection', function(socket) {
     });
 });
 
-http.listen(3000, function() {
-    console.log('listening on *:3000');
+http.listen(3001, function() {
+    console.log('listening on port -- '+this.address().port);
 });

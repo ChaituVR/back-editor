@@ -1,7 +1,7 @@
 var fs = require('fs');
 
-var getFileNames = function(dir){
- return getFilesOrganised(ReadFileNames(dir))
+var getFileNames = function(dir) {
+    return getFilesOrganised(ReadFileNames(dir))
 }
 
 var ReadFileNames = function(dir, files_) {
