@@ -1,0 +1,21 @@
+
+.CodeMirror{
+  float:right;
+  margin:10px auto;
+  width:70% !important;
+  font-family: monospace;
+  border:1px solid lightblue !important;
+  height:98% !important;
+  font-size:1.3em;
+}
+#project-files{
+  display:inline-block;
+  height:99% !important;
+  width:320px;
+  border:solid;
+}
+.fileName-btn{
+  width:100%;
+  height:30px;
+  background: rgba(0,0,0,0.1);
+}

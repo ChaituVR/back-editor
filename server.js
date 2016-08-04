@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var fs = require('fs');
 var path = require('path');
+var vhost = require('vhost')
 
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -14,15 +15,24 @@ app.get('/', function(req, res) {
 
 });
 
-//var UserBin = require('./UserBin/server')
+var UserBin = require('./UserBin/server.js')
 
+var os = require('os');
+var hostname = os.hostname();
+console.log(hostname)
+var hostile = require('hostile')  //https://www.npmjs.com/package/hostile
+hostile.set('127.0.0.1', 'apple.localhost', function (err) {
+  if (err) {
+    console.error(err)
+  } else {
+    console.log('set /etc/hosts successfully!')
+  }
+})
 
+// app.use('/UserBin', require('./UserBin/server.js').app);
+app.use(vhost('apple.localhost', UserBin.app))
 
-
-//app.use('/UserBin', require('./UserBin/server').app);
-
-
-
+// app.get('/UserBin', UserBin.app);
 
 var getFiles = require('./getFiles')
 io.on('connection', function(socket) {
@@ -50,6 +60,6 @@ io.on('connection', function(socket) {
     });
 });
 
-http.listen(3001, function() {
+http.listen(process.env.PORT || 80, function() {
     console.log('listening on port -- '+this.address().port);
 });
