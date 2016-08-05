@@ -3,6 +3,8 @@ var app = express();
 var fs = require('fs');
 var path = require('path');
 var vhost = require('vhost')
+require('dotenv').config();
+
 
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -17,11 +19,10 @@ app.get('/', function(req, res) {
 
 var UserBin = require('./UserBin/server.js')
 
-var os = require('os');
-var hostname = os.hostname();
-console.log(hostname)
+var newHost='apple.'+process.env.HOST;
+
 var hostile = require('hostile')  //https://www.npmjs.com/package/hostile
-hostile.set('127.0.0.1', 'apple.localhost', function (err) {
+hostile.set('127.0.0.1', newHost, function (err) {
   if (err) {
     console.error(err)
   } else {
@@ -30,7 +31,7 @@ hostile.set('127.0.0.1', 'apple.localhost', function (err) {
 })
 
 // app.use('/UserBin', require('./UserBin/server.js').app);
-app.use(vhost('apple.localhost', UserBin.app))
+app.use(vhost(newHost, UserBin.app))
 
 // app.get('/UserBin', UserBin.app);
 
