@@ -18,6 +18,7 @@ var s_key = 83;
 
 
 var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("myTextArea"), {
+    mode: "text/html",
     lineWrapping: true,
     extraKeys: {
         'Ctrl-Space': 'autocomplete'
@@ -50,9 +51,16 @@ function getFileNames(){
   socket.emit('getFileNames');
 }
 function setFileNames(files){
+  var i=0;
+  var folders=[];
   for(var file of files){
+   var currentfolderName = Object.keys(file)[0].split("/");
+  //  currentfolderName.pop();
+  //  currentfolderName.join("/");
+     folders.push(currentfolderName)
     $("#project-files").append("<button class='fileName-btn' value='"+file+"'>"+file+"</button><br>");
   }
+  console.log(folders);
   $(".fileName-btn").on('click',function(){
    getTheContentFromFile(this.value);
   });
